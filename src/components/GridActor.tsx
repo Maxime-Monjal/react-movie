@@ -8,7 +8,7 @@ export const GridActor = () => {
     [`actor-movie-${imdbID}`, imdbID],
     () => actorMovie(imdbID),
     {
-      staleTime: 0,
+      refetchOnWindowFocus: false,
     }
   );
 

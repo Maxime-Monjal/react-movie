@@ -11,8 +11,7 @@ export const TheMovie = () => {
     [`movie-detail-${imdbID}`, imdbID],
     () => moviesDetailApi(imdbID),
     {
-      cacheTime: 5000,
-      staleTime: 0,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -92,27 +91,6 @@ export const TheMovie = () => {
               </div>
             </div>
           </div>
-          {/* <div className="text-center mt-4 max-w-screen-xl mx-auto">
-            <Link className="pt-4 self-center" to={"/"}>
-              <button
-                className="
-                bg-indigo-500
-                px-5
-                py-3
-                text-sm
-                shadow-sm
-                font-medium
-                tracking-wider
-                border
-                text-indigo-100
-                rounded-full
-                hover:shadow-lg hover:bg-indigo-600
-              "
-              >
-                Voir des films similaire à {movieDetail.title}
-              </button>
-            </Link>
-          </div> */}
           <GridActor />
         </div>
       )}

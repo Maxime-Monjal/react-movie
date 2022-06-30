@@ -6,8 +6,6 @@ export const useFetchMovies = (page: number) => {
     ["movie", page],
     () => moviesApi(page),
     {
-      cacheTime: 5000,
-      staleTime: 0,
       refetchOnWindowFocus: false,
     }
   );
