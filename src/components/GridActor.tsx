@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { actorMovie } from "../services/TmdbAPI";
+import { Loader } from "./Loader";
 
 export const GridActor = () => {
   const { imdbID = "" } = useParams();
@@ -16,7 +17,8 @@ export const GridActor = () => {
     <>
       <h3 className="text-3xl text-center pt-4 px-4">Acteur</h3>
       <div className="pt-8">
-        {isLoading && <p>...loading</p>}
+        <Loader isLoading={isLoading} />
+
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 max-w-screen-xl mx-auto">
           {actors &&
             actors.map((actor: IActors) => (

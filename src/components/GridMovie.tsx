@@ -1,17 +1,24 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Link } from "react-router-dom";
-import { useFetchMovies } from "../hooks/useFecthMovies";
+import { Loader } from "./Loader";
 
-export const GridMovie = () => {
-  const [page, setPage] = useState(1);
+type IGridMovieProps = {
+  movies: IMovies[];
+  isLoading: boolean;
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
+};
 
-  const { movies, isLoading } = useFetchMovies(page);
-
+export const GridMovie = ({
+  movies,
+  isLoading,
+  page,
+  setPage,
+}: IGridMovieProps) => {
   return (
     <div className="pt-8">
-      {isLoading && (
-        <p className="justify-self-center	self-center	">...loading</p>
-      )}
+      <Loader isLoading={isLoading} />
+
       <div
         className="
               grid grid-cols-2
@@ -27,7 +34,7 @@ export const GridMovie = () => {
               className="mb-10 mx-4 bg-black cursor-pointer shadow-3xl hover:-translate-y-1 hover:scale-110 duration-300"
               key={movie.id}
             >
-              <Link to={`/${movie.id}`}>
+              <Link to={`/${movie.title.replace(/ /g, "_")}/${movie.id}`}>
                 <img
                   src={
                     movie.poster_path

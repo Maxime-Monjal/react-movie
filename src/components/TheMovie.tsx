@@ -1,8 +1,9 @@
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { moviesDetailApi } from "../services/TmdbAPI";
 import { timeConvert } from "../utilities/timeConvert";
 import { GridActor } from "./GridActor";
+import { Loader } from "./Loader";
 
 export const TheMovie = () => {
   const { imdbID = "" } = useParams<string>();
@@ -17,7 +18,8 @@ export const TheMovie = () => {
 
   return (
     <>
-      {isLoading && <p className="text-center">...loading</p>}
+      <Loader isLoading={isLoading} />
+
       {movieDetail && (
         <div key={`${movieDetail.title}-${movieDetail.id}`}>
           <h1 className="text-3xl pt-4 px-4 text-center">
@@ -90,6 +92,27 @@ export const TheMovie = () => {
                   ))}
               </div>
             </div>
+          </div>
+          <div className="text-center mt-4 max-w-screen-xl mx-auto">
+            <Link className="pt-4 self-center" to={"/"}>
+              <button
+                className="
+                bg-indigo-500
+                px-5
+                py-3
+                text-sm
+                shadow-sm
+                font-medium
+                tracking-wider
+                border
+                text-indigo-100
+                rounded-full
+                hover:shadow-lg hover:bg-indigo-600
+              "
+              >
+                Voir des films similaire à {movieDetail.title}
+              </button>
+            </Link>
           </div>
           <GridActor />
         </div>
