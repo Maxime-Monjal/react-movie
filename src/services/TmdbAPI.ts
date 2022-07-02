@@ -14,6 +14,33 @@ export const moviesApi = async (page: number) => {
   }
 };
 
+export const moviesTopRatedApi = async (page: number) => {
+  try {
+    const { data } = await axios.get<IMovieDetail[]>(
+      `https://react-movie-backend.herokuapp.com/toprated/${page}`
+    );
+
+    return data;
+  } catch (err: any) {
+    console.error(`[TmdbAPI] [moviesTopRatedApi] : ${err.message}`);
+
+    return [];
+  }
+};
+
+export const moviesUpcomingApi = async (page: number) => {
+  try {
+    const { data } = await axios.get<IMovieDetail[]>(
+      `https://react-movie-backend.herokuapp.com/upcoming/${page}`
+    );
+
+    return data;
+  } catch (err: any) {
+    console.error(`[TmdbAPI] [moviesUpcomingApi] : ${err.message}`);
+
+    return [];
+  }
+};
 export const moviesDetailApi = async (imdbId: string) => {
   if (imdbId) {
     try {
@@ -28,7 +55,9 @@ export const moviesDetailApi = async (imdbId: string) => {
       return null;
     }
   } else {
-    console.error(`[TmdbAPI] [moviesDetailApi] : ${imdbId} is not recognize`);
+    console.error(
+      `[TmdbAPI] [moviesDetailApi] : imdbID : ${imdbId} is not recognize`
+    );
 
     return null;
   }
@@ -48,7 +77,9 @@ export const actorMovie = async (imdbId: string) => {
       return [];
     }
   } else {
-    console.error(`[TmdbAPI] [actorMovie] : ${imdbId} is not recognize`);
+    console.error(
+      `[TmdbAPI] [actorMovie] :  imdbID : ${imdbId} is not recognize`
+    );
 
     return [];
   }
