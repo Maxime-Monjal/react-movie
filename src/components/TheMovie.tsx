@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
-import { moviesDetailApi } from "../services/TmdbAPI";
+import { actorMovie, moviesDetailApi } from "../services/TmdbAPI";
 import { timeConvert } from "../utilities/timeConvert";
 import { GridActor } from "./GridActor";
 import { Loader } from "./Loader";
@@ -8,39 +8,56 @@ import { Loader } from "./Loader";
 export const TheMovie = () => {
   const { imdbID = "" } = useParams<string>();
 
-  const { data: movieDetail = null, isLoading } = useQuery(
+  const { data: movieDetail , isLoading } = useQuery<IMovieDetail, boolean>(
     [`movie-detail-${imdbID}`, imdbID],
     () => moviesDetailApi(imdbID),
     {
       refetchOnWindowFocus: false,
+      enabled: !!imdbID,
+      staleTime: 10 * (60 * 1000), // 10 mins
     }
-  );
+  )
+
+  const { data: actors = [], isLoading: onLoad } = useQuery<IActors[], boolean>(
+    [`actor-movie-${imdbID}`, imdbID],
+    () => actorMovie(imdbID),
+    {
+      refetchOnWindowFocus: false,
+      enabled: !!imdbID,
+      staleTime: 10 * (60 * 1000), // 10 mins
+    }
+  )
+
+  const {id,title, backdrop_path, tagline, overview, release_date, vote_average, vote_count, runtime, budget, revenue, genres} = movieDetail ?? {} 
 
   return (
     <>
-      <Loader isLoading={isLoading} />
-
+     {isLoading  ? 
+     <Loader />
+      :
+      <>
       {movieDetail && (
-        <div key={`${movieDetail.title}-${movieDetail.id}`}>
+        <div key={`${title}-${id}`}>
           <h1 className="text-3xl pt-4 px-4 text-center">
-            {movieDetail.title}
+            {title}
           </h1>
           <img
             className="max-w-screen-xl w-full mx-auto pt-4 px-4"
-            src={`https://image.tmdb.org/t/p/original/${movieDetail.backdrop_path}`}
-            alt={movieDetail.title}
+            src={backdrop_path ? `https://image.tmdb.org/t/p/original${backdrop_path}`
+              : `https://placehold.co/1248x702?text=Pas+de+photo+disponible+pour%5Cn${title}`
+          }
+            alt={title}
             width="500"
             height="500"
             loading="lazy"
           />
           <h2 className="text-2xl pt-4 px-4 text-center">
-            {movieDetail.tagline}
+            {tagline}
           </h2>
           <p className="max-w-screen-xl mx-auto pt-2 px-4">
-            {movieDetail.overview}
+            {overview}
           </p>
-          <div
-            className="
+          <div className="
             flex flex-col
             w-full
             text-center
@@ -52,31 +69,31 @@ export const TheMovie = () => {
             <p className="max-w-screen-xl pt-4 px-4">
               Sorti le:{" "}
               <strong>
-                {new Date(movieDetail.release_date).toLocaleDateString("fr")}
+                {release_date && new Date(release_date).toLocaleDateString("fr")}
               </strong>
             </p>
             <p className="max-w-screen-xl pt-4">
-              Note: <strong>{movieDetail.vote_average} / 10</strong>
+              Note: <strong>{vote_average} / 10</strong>
             </p>
             <p className="max-w-screen-xl pt-4">
-              Nombre de vote: <strong>{movieDetail.vote_count}</strong>
+              Nombre de vote: <strong>{vote_count}</strong>
             </p>
             <p className="max-w-screen-xl pt-4">
-              Durée du film: <strong>{timeConvert(movieDetail.runtime)}</strong>
+              Durée du film: <strong>{runtime && timeConvert(runtime)}</strong>
             </p>
             <p className="max-w-screen-xl pt-4">
               Budget:{" "}
-              {movieDetail.budget ? (
-                <strong>{movieDetail.budget.toLocaleString()} $</strong>
+              {budget ? (
+                <strong>{budget.toLocaleString()} $</strong>
               ) : (
                 <strong>Non renseigné</strong>
               )}
             </p>
 
             <p className="max-w-screen-xl pt-4">
-              Revenue généré:{""}
-              {movieDetail.revenue ? (
-                <strong> {movieDetail.revenue.toLocaleString()} $</strong>
+              Revenus générés:{""}
+              {revenue ? (
+                <strong> {revenue.toLocaleString()} $</strong>
               ) : (
                 <strong>Non renseigné</strong>
               )}
@@ -84,8 +101,8 @@ export const TheMovie = () => {
             <div className="max-w-screen-xl pt-4">
               Genre :
               <div className="">
-                {movieDetail.genres &&
-                  movieDetail.genres.map((genre: any) => (
+                {genres &&
+                  genres.map((genre: any) => (
                     <span key={genre.id} className="px-2">
                       <strong className="inline-block">{genre.name}</strong>
                     </span>
@@ -94,9 +111,8 @@ export const TheMovie = () => {
             </div>
           </div>
           <div className="text-center mt-4 max-w-screen-xl mx-auto">
-            <Link className="pt-4 self-center" to={"/"}>
-              <button
-                className="
+            <Link className="pt-4 self-center" to={`/similar/${id}`} onClick={() => window.location.href = `/similar/${id}`}>
+              <button className="
                 bg-indigo-500
                 px-5
                 py-3
@@ -110,13 +126,15 @@ export const TheMovie = () => {
                 hover:shadow-lg hover:bg-indigo-600
               "
               >
-                Voir des films similaire à {movieDetail.title}
+                Voir des films similaires à {title}
               </button>
             </Link>
           </div>
-          <GridActor />
+          <GridActor actors={actors} onLoad={onLoad} />
         </div>
       )}
+      </>
+}
     </>
   );
 };
