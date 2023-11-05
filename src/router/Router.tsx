@@ -28,7 +28,7 @@ export default function Router() {
   return (
     <div>
       <Header />
-      <NavBar />
+      <NavBar setPage={setPage}/>
 
       <Routes>
       <Route path="/similar/:id" element={<GridMovie refetch={refetch} setSearchText={setSearchText} movies={similarMovie} isLoading={onLoad} page={page} setPage={setPage} />} /> 

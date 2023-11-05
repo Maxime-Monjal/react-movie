@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Loader } from "./Loader";
 import { SearchBar } from "./SearchBar";
@@ -25,6 +25,10 @@ export const GridMovie = ({
   refetch,
   isSearchBarIsVisible
 }: IGridMovieProps) => {
+
+  useEffect(() => {
+  }, [])
+
   return (
     <div className="py-4">
     <SearchBar setSearchText={setSearchText} refetch={refetch} isSearchBarIsVisible={isSearchBarIsVisible} /> 
@@ -54,14 +58,15 @@ export const GridMovie = ({
       </div>
       
         <button className="bg-indigo-500 px-5 py-3 text-sm shadow-sm font-medium tracking-wider border text-indigo-100 rounded-full hover:shadow-lg hover:bg-indigo-600 mb-4 disabled:bg-slate-500"
-          onClick={() => setPage((page) => Math.max(page - 1))}
-          disabled={page === 1}
-        >
+          onClick={() => {
+            setPage((page) => Math.max(page - 1))
+            window.scrollTo(0, 0)}} disabled={page === 1}>
           Page Précédente
         </button>
         <button className="bg-indigo-500 px-5 py-3 text-sm shadow-sm font-medium tracking-wider border text-indigo-100 rounded-full hover:shadow-lg hover:bg-indigo-600 mb-4 disabled:bg-slate-500"
-          onClick={() => setPage(page + 1)}
-        >
+          onClick={() => {
+            setPage(page + 1)
+            window.scrollTo(0, 0)}}>
           Page Suivante
         </button>
       </>
