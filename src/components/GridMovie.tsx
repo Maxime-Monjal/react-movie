@@ -1,33 +1,22 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Loader } from "./Loader";
-import { SearchBar } from "./SearchBar";
-import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "react-query";
+import { Dispatch, SetStateAction } from "react"
+import { Link } from "react-router-dom"
+import { Loader } from "./Loader"
+import { SearchBar } from "./SearchBar"
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "react-query"
 
 type IGridMovieProps = {
-  movies: IMovies[];
-  isLoading: boolean;
-  page: number;
-  setPage: Dispatch<SetStateAction<number>>;
-  setSearchText: (text: string) => void;
+  movies: IMovies[]
+  isLoading: boolean
+  page: number
+  setPage: Dispatch<SetStateAction<number>>
+  setSearchText: (text: string) => void
   refetch: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
   ) => Promise<QueryObserverResult<IMovies[], unknown>>
   isSearchBarIsVisible?: boolean
-};
+}
 
-export const GridMovie = ({
-  movies,
-  isLoading,
-  page,
-  setPage,
-  setSearchText,
-  refetch,
-  isSearchBarIsVisible
-}: IGridMovieProps) => {
-
-  useEffect(() => {
-  }, [])
+export const GridMovie = ({movies, isLoading, page, setPage, setSearchText, refetch, isSearchBarIsVisible}: IGridMovieProps) => {
 
   return (
     <div className="py-4">
@@ -72,5 +61,5 @@ export const GridMovie = ({
       </>
 }
     </div>
-  );
-};
+  )
+}

@@ -1,12 +1,12 @@
-import { useQuery } from "react-query";
-import { Link, useParams } from "react-router-dom";
-import { actorMovie, moviesDetailApi } from "../services/TmdbAPI";
-import { timeConvert } from "../utilities/timeConvert";
-import { GridActor } from "./GridActor";
-import { Loader } from "./Loader";
+import { useQuery } from "react-query"
+import { Link, useParams } from "react-router-dom"
+import { actorMovie, moviesDetailApi } from "../services/TmdbAPI"
+import { timeConvert } from "../utilities/timeConvert"
+import { GridActor } from "./GridActor"
+import { Loader } from "./Loader"
 
 export const TheMovie = () => {
-  const { imdbID = "" } = useParams<string>();
+  const { imdbID = "" } = useParams<string>()
 
   const { data: movieDetail , isLoading } = useQuery<IMovieDetail, boolean>(
     [`movie-detail-${imdbID}`, imdbID],
@@ -41,31 +41,17 @@ export const TheMovie = () => {
           <h1 className="text-3xl pt-4 px-4 text-center">
             {title}
           </h1>
-          <img
-            className="max-w-screen-xl w-full mx-auto pt-4 px-4"
-            src={backdrop_path ? `https://image.tmdb.org/t/p/original${backdrop_path}`
+          <img className="max-w-screen-xl w-full mx-auto pt-4 px-4" src={backdrop_path ?
+                `https://image.tmdb.org/t/p/original${backdrop_path}`
               : `https://placehold.co/1248x702?text=Pas+de+photo+disponible+pour%5Cn${title}`
-          }
-            alt={title}
-            width="500"
-            height="500"
-            loading="lazy"
-          />
+          } alt={title}  width="500" height="500" loading="lazy"/>
           <h2 className="text-2xl pt-4 px-4 text-center">
             {tagline}
           </h2>
           <p className="max-w-screen-xl mx-auto pt-2 px-4">
             {overview}
           </p>
-          <div className="
-            flex flex-col
-            w-full
-            text-center
-            place-content-center
-            max-w-screen-xl
-            mx-auto
-          "
-          >
+          <div className="flex flex-col w-full text-center place-content-center max-w-screen-xl mx-auto">
             <p className="max-w-screen-xl pt-4 px-4">
               Sorti le:{" "}
               <strong>
@@ -112,20 +98,7 @@ export const TheMovie = () => {
           </div>
           <div className="text-center mt-4 max-w-screen-xl mx-auto">
             <Link className="pt-4 self-center" to={`/similar/${id}`} onClick={() => window.location.href = `/similar/${id}`}>
-              <button className="
-                bg-indigo-500
-                px-5
-                py-3
-                text-sm
-                shadow-sm
-                font-medium
-                tracking-wider
-                border
-                text-indigo-100
-                rounded-full
-                hover:shadow-lg hover:bg-indigo-600
-              "
-              >
+              <button className="bg-indigo-500 px-5 py-3 text-sm shadow-sm font-medium tracking-wider border text-indigo-100 rounded-full hover:shadow-lg hover:bg-indigo-600">
                 Voir des films similaires à {title}
               </button>
             </Link>
@@ -136,5 +109,5 @@ export const TheMovie = () => {
       </>
 }
     </>
-  );
-};
+  )
+}

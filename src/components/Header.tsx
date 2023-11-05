@@ -1,37 +1,15 @@
 export const Header = () => {
   return (
     <div className="bg-black text-white">
-      <div
-        className="
-            flex
-            justify-around
-            items-center
-            max-w-screen-xl
-            h-28
-            py-5
-            px-4
-            mx-auto
-          "
-      >
+      <div className="flex justify-around items-center max-w-screen-xl h-28 py-5 px-4 mx-auto">
         <a href="/">
-          <img
-            className="hidden sm:block"
-            width="100"
-            height="100"
-            src="../assets/img/MDB.svg"
-            alt="powered by the movie db"
-          />
+          <img className="hidden sm:block" width="100" height="100" src="../assets/img/MDB.svg" alt="Powered by the movie db"/>
         </a>
         <a href="/">
-          <span className="md:text-2xl">Welcome to React Movie</span>
+          <span className="md:text-2xl">Bienvenue sur React Movie</span>
         </a>
-        <img
-          width="122"
-          height="100"
-          src="../assets/img/MDB.png"
-          alt="powered by the movie db"
-        />
+        <img width="122" height="100" src="../assets/img/MDB.png" alt="Powered by the movie db"/>
       </div>
     </div>
-  );
-};
+  )
+}

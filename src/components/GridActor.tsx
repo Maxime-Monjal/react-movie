@@ -1,4 +1,4 @@
-import { Loader } from "./Loader";
+import { Loader } from "./Loader"
 
 export const GridActor = ({actors, onLoad}: {actors: IActors[], onLoad: boolean}) => {
   return (
@@ -11,14 +11,12 @@ export const GridActor = ({actors, onLoad}: {actors: IActors[], onLoad: boolean}
           {actors &&
             actors.map(({name, id,profile_path,character}) => (
               <div className="mb-10 mx-4 shadow-2xl" key={`${name}-${id}`}>
-                <img
-                  src={
+                <img  src={
                     profile_path
                       ? `https://image.tmdb.org/t/p/w500${profile_path}`
                       : `https://placehold.co/282x423?text=Pas+de+photo+disponible+pour%5Cn${name}`
                   }
-                  alt={profile_path ? name : `Pas de photo disponible pour ${name}`} loading="lazy"
-                />
+                  alt={profile_path ? name : `Pas de photo disponible pour ${name}`} loading="lazy"/>
                 <p className="text-center py-2 font-semibold	">{name}</p>
                 <p className="text-center pb-2">{character}</p>
               </div>
@@ -26,5 +24,5 @@ export const GridActor = ({actors, onLoad}: {actors: IActors[], onLoad: boolean}
         </div>
       </div>
     </>
-  );
-};
+  )
+}
