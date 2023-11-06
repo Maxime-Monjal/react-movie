@@ -1,6 +1,11 @@
 import { Loader } from "./Loader"
 
-export const GridActor = ({actors, onLoad}: {actors: IActors[], onLoad: boolean}) => {
+type IGridActor = {
+  actors: IActors[]
+  onLoad: boolean
+}
+
+export const GridActor = ({actors, onLoad}: IGridActor) => {
   return (
     <>
       {actors.length > 1 && <h3 className="text-3xl text-center pt-4 px-4">Acteur</h3>}

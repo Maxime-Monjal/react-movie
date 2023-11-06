@@ -1,7 +1,11 @@
 import React from "react"
 import { Tab } from "./Tab"
 
-export const NavBar = ({setPage}: { setPage: React.Dispatch<React.SetStateAction<number>>}) => {
+type INavBar = {
+  setPage: React.Dispatch<React.SetStateAction<number>>
+}
+
+export const NavBar = ({setPage}: INavBar) => {
   return (
       <div>
         <ul className="flex max-w-screen-xl mx-auto">

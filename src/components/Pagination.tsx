@@ -3,7 +3,6 @@ import React, { Dispatch, SetStateAction } from "react"
 type IPagination = {
   setPage: Dispatch<SetStateAction<number>>
   page: number
-
 }
 
 export const Pagination = ({ setPage, page }: IPagination) => {

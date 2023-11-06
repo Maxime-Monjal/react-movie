@@ -11,9 +11,7 @@ type IGridMovieProps = {
   page: number
   setPage: Dispatch<SetStateAction<number>>
   setSearchText: (text: string) => void
-  refetch: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-  ) => Promise<QueryObserverResult<IMovies[], unknown>>
+  refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<IMovies[], unknown>>
   isSearchBarIsVisible?: boolean
 }
 
