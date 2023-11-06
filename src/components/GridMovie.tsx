@@ -28,9 +28,7 @@ export const GridMovie = ({movies, isLoading, page, setPage, setSearchText, refe
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4 max-w-screen-xl mx-auto">
         {movies?.map(({id, poster_path, title}) => (
             <div className="mb-10 mx-4 bg-black cursor-pointer shadow-3xl hover:-translate-y-1 hover:scale-95 shadow-none duration-300" key={id} >
-              <Link onClick={() => {
-              window.location.href = `/movie/${id}`
-            }} to={`/movie/${id}`}>
+              <Link to={`/movie/${id}`}>
                 <img src={poster_path 
                 ? `https://image.tmdb.org/t/p/w500${poster_path}`
                       : `https://placehold.co/276x414?text=Pas+de+photo+disponible+pour%5Cn${title}`

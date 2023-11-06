@@ -2,16 +2,24 @@ import {useQuery } from "react-query"
 import {  moviesSearchApi,  moviesTopRatedApi, moviesUpcomingApi } from "../services/TmdbAPI"
 import { useEffect } from "react"
 
-export const useFetchMovies = (page: number, location: string, searchText: string | null ) => {
+
+type IUseFectMovies = {
+  page: number
+  locationPathName: string
+  searchText: string | null
+  imdbID: string 
+}
+
+export const useFetchMovies = ({page, locationPathName, searchText, imdbID}: IUseFectMovies ) => {
   let queryKey = ""
   let fetchFunction = moviesSearchApi
 
-  if (location === "/") {
+  if (locationPathName === "/") {
     queryKey = String(["movie", page, searchText])
-  } else if (location === "/top_rated") {
+  } else if (locationPathName === "/top_rated") {
     queryKey = String([`movie-top-rated`, page])
     fetchFunction = moviesTopRatedApi
-  } else if (location === "/upcoming") {
+  } else if (locationPathName === "/upcoming") {
     queryKey = String([`movie-upcoming`, page])
     fetchFunction = moviesUpcomingApi
   } 
@@ -27,7 +35,7 @@ export const useFetchMovies = (page: number, location: string, searchText: strin
 
   useEffect(() => {
     refetch()
-  }, [location, refetch, searchText, page])
+  }, [locationPathName, refetch, searchText, page, imdbID])
 
   return { movies, isLoading, refetch}
 }

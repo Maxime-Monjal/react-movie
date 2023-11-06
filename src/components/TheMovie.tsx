@@ -30,6 +30,8 @@ export const TheMovie = () => {
 
   const {id,title, backdrop_path, tagline, overview, release_date, vote_average, vote_count, runtime, budget, revenue, genres} = movieDetail ?? {} 
 
+    
+
   return (
     <>
      {isLoading  ? 
@@ -97,7 +99,7 @@ export const TheMovie = () => {
             </div>
           </div>
           <div className="text-center mt-4 max-w-screen-xl mx-auto">
-            <Link className="pt-4 self-center" to={`/similar/${id}`} onClick={() => window.location.href = `/similar/${id}`}>
+            <Link className="pt-4 self-center" to={`/similar/${id}`} >
               <button className="bg-indigo-500 px-5 py-3 text-sm shadow-sm font-medium tracking-wider border text-indigo-100 rounded-full hover:shadow-lg hover:bg-indigo-600">
                 Voir des films similaires à {title}
               </button>
