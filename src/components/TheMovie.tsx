@@ -1,35 +1,30 @@
 import { useQuery } from "react-query"
 import { Link, useParams } from "react-router-dom"
-import { actorMovie, moviesDetailApi } from "../services/TmdbAPI"
+import { actorsMovie, movieDetailApi } from "../services/TmdbAPI"
 import { timeConvert } from "../utilities/timeConvert"
 import { GridActor } from "./GridActor"
 import { Loader } from "./Loader"
+import useScrollToTop from "../hooks/useScrollToTop"
 
 export const TheMovie = () => {
   const { imdbID = "" } = useParams<string>()
+  const isTheMovie = window.location.pathname.split("/")[1] === "movie"
+  useScrollToTop()
 
-  const { data: movieDetail, isLoading } = useQuery<IMovieDetail, boolean>(
-    [`movie-detail-${imdbID}`, imdbID],
-    () => moviesDetailApi(imdbID),
+  const {data, isLoading} = useQuery<[IMovieDetail, IActors[]], boolean>(
+    [`movie-detail-${imdbID}`],
+    () => Promise.all([movieDetailApi(imdbID),actorsMovie(imdbID)]),  
     {
       refetchOnWindowFocus: false,
-      enabled: !!imdbID,
+      enabled: !!imdbID && isTheMovie,
       staleTime: 10 * (60 * 1000), // 10 mins
     }
   )
 
-  const { data: actors = [], isLoading: onLoad } = useQuery<IActors[], boolean>(
-    [`actor-movie-${imdbID}`, imdbID],
-    () => actorMovie(imdbID),
-    {
-      refetchOnWindowFocus: false,
-      enabled: !!imdbID,
-      staleTime: 10 * (60 * 1000), // 10 mins
-    }
-  )
+  const movieDetail = data?.[0]
+  const actors = data?.[1] ?? []
 
   const { id, title, backdrop_path, tagline, overview, release_date, vote_average, vote_count, runtime, budget, revenue, genres } = movieDetail ?? {}
-
 
 
   return (
@@ -105,7 +100,7 @@ export const TheMovie = () => {
                   </button>
                 </Link>
               </div>
-              <GridActor actors={actors} onLoad={onLoad} />
+              <GridActor actors={actors} onLoad={isLoading} />
             </div>
           )}
         </>

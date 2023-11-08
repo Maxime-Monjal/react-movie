@@ -5,18 +5,22 @@ import { SearchBar } from "./SearchBar"
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters } from "react-query"
 import { Pagination } from "./Pagination"
 
+
 type IGridMovieProps = {
   movies: IMovies[]
   isLoading: boolean
   page: number
+  setters:{
   setPage: Dispatch<SetStateAction<number>>
   setSearchText: (text: string) => void
   refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<IMovies[], unknown>>
+  }
   isSearchBarIsVisible?: boolean
+  isPaginate?: boolean
 }
 
-export const GridMovie = ({ movies, isLoading, page, setPage, setSearchText, refetch, isSearchBarIsVisible }: IGridMovieProps) => {
-
+export const GridMovie = ({ movies, isLoading, page, setters, isSearchBarIsVisible , isPaginate = true}: IGridMovieProps) => {
+const {refetch, setPage, setSearchText} = setters
   return (
     <div className="py-4">
       <SearchBar setSearchText={setSearchText} refetch={refetch} isSearchBarIsVisible={isSearchBarIsVisible} />
@@ -43,7 +47,7 @@ export const GridMovie = ({ movies, isLoading, page, setPage, setSearchText, ref
             ))}
           </div>
 
-          <Pagination setPage={setPage} page={page} />
+         {isPaginate && <Pagination setPage={setPage} page={page} /> }
         </>
       }
     </div>

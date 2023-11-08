@@ -68,7 +68,7 @@ export const moviesSearchApi = async (page: number, query: string | null ) => {
 
 }
 
-export const moviesDetailApi = async (imdbId: string) => {
+export const movieDetailApi = async (imdbId: string) => {
   if (imdbId) {
     try {
       const  data  = await fetch(`https://back-end-react-movie.onrender.com/movie/${imdbId}`).then((r) =>r.json())
@@ -86,20 +86,47 @@ export const moviesDetailApi = async (imdbId: string) => {
   }
 }
 
-export const actorMovie = async (imdbId: string) => {
+export const actorsMovie = async (imdbId: string) => {
   if (imdbId) {
     try {
       const data  = await fetch(`https://back-end-react-movie.onrender.com/actors/${imdbId}`).then((r) =>r.json())
 
       return data as IActors[]
     } catch (err: any) {
-      console.error(`[TmdbAPI] [actorMovie] : ${err.message}`)
+      console.error(`[TmdbAPI] [actorsMovie] : ${err.message}`)
 
       return []
     }
   } else {
-    console.error(`[TmdbAPI] [actorMovie] :  imdbID : ${imdbId} is not recognize`)
+    console.error(`[TmdbAPI] [actorsMovie] :  imdbID : ${imdbId} is not recognize`)
 
     return []
+  }
+}
+
+
+export const actorDetail = async (imdbId: string)   =>  {
+  if (imdbId) {
+    try {
+      const actor  = await fetch(`https://back-end-react-movie.onrender.com/actor/${imdbId}`).then((r) =>r.json())
+
+      const actorDetail = actor[0]
+      const externalID = actor[1]
+      const filmography =  actor[2].cast.sort((a: IFilmography, b: IFilmography) => {
+        const dateA = new Date(a.release_date).getTime()
+        const dateB = new Date(b.release_date).getTime()
+        return dateB - dateA
+      })
+
+      return {actorDetail, externalID, filmography} as IActor
+    } catch (err: any) {
+      console.error(`[TmdbAPI] [actorDetail] : ${err.message}`)
+
+      return {} as IActor
+    }
+  } else {
+    console.error(`[TmdbAPI] [actorDetail] :  imdbID : ${imdbId} is not recognize`)
+
+    return {} as IActor
   }
 }

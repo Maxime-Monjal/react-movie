@@ -12,14 +12,18 @@ type IUseFectMovies = {
 
 export const useFetchMovies = ({page, locationPathName, searchText, imdbID}: IUseFectMovies ) => {
   let queryKey = ""
-  let fetchFunction = moviesSearchApi
+  let fetchFunction = (page: number, query: string | null) => Promise.resolve as unknown as Promise<IMovies[]>
+  const isHome = locationPathName === "/"
+  const isToprated = locationPathName.split("/")[1] === "/top_rated"
+  const isUpComing = locationPathName.split("/")[1] === "/upcoming"
 
-  if (locationPathName === "/") {
+  if (isHome) {
     queryKey = String(["movie", page, searchText])
-  } else if (locationPathName === "/top_rated") {
+    fetchFunction = moviesSearchApi
+  } else if (isToprated) {
     queryKey = String([`movie-top-rated`, page])
     fetchFunction = moviesTopRatedApi
-  } else if (locationPathName === "/upcoming") {
+  } else if (isUpComing) {
     queryKey = String([`movie-upcoming`, page])
     fetchFunction = moviesUpcomingApi
   } 
@@ -30,6 +34,7 @@ export const useFetchMovies = ({page, locationPathName, searchText, imdbID}: IUs
     {
       refetchOnWindowFocus: false,
       staleTime: 10 * (60 * 1000), // 10 mins
+      enabled: isHome || isToprated || isUpComing
     }
   )
 
