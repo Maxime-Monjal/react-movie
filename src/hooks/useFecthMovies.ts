@@ -14,8 +14,8 @@ export const useFetchMovies = ({page, locationPathName, searchText, imdbID}: IUs
   let queryKey = ""
   let fetchFunction = (page: number, query: string | null) => Promise.resolve as unknown as Promise<IMovies[]>
   const isHome = locationPathName === "/"
-  const isToprated = locationPathName.split("/")[1] === "/top_rated"
-  const isUpComing = locationPathName.split("/")[1] === "/upcoming"
+  const isToprated = locationPathName.split("/")[1] === "top_rated"
+  const isUpComing = locationPathName.split("/")[1] === "upcoming"
 
   if (isHome) {
     queryKey = String(["movie", page, searchText])
