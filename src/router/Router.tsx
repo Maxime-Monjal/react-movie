@@ -9,6 +9,7 @@ import { useState } from "react"
 import { useQuery } from "react-query"
 import { moviesSimilarApi } from "../services/TmdbAPI"
 import { Actor } from "../components/Actor"
+import { Footer } from "../components/Footer"
 
 export default function Router() {
   const [page, setPage] = useState(1)
@@ -42,6 +43,7 @@ export default function Router() {
         <Route path="/movie/:imdbID" key={`movie-detail${imdbID}`} element={<TheMovie />} />
         <Route path="/actor/:imdbID" key={`actor-detail${imdbID}`} element={<Actor setters={setters} page={page} />} />
       </Routes>
+      <Footer/>
     </div>
   )
 }
