@@ -8,6 +8,7 @@ import { useFetchMovies } from "../hooks/useFecthMovies"
 import { useState } from "react"
 import { useQuery } from "react-query"
 import { moviesSimilarApi } from "../services/TmdbAPI"
+import { Actor } from "../components/Actor"
 
 export default function Router() {
   const [page, setPage] = useState(1)
@@ -15,6 +16,7 @@ export default function Router() {
 
   const locationPathName = useLocation().pathname
   const imdbID = locationPathName.split('/')[2] ?? null
+  const isSimilarMovie = locationPathName.split('/')[1] === "similar"
 
   const { movies = [], isLoading, refetch } = useFetchMovies({page, locationPathName, searchText, imdbID})
  
@@ -22,8 +24,10 @@ export default function Router() {
     {
       refetchOnWindowFocus: false,
       staleTime: 10 * (60 * 1000), // 10 mins,
-      enabled: !!imdbID
+      enabled: !!imdbID && isSimilarMovie
     })
+
+    const setters = {refetch, setSearchText, setPage}
 
   return (
     <div>
@@ -31,11 +35,12 @@ export default function Router() {
       <NavBar setPage={setPage}/>
 
       <Routes>
-        <Route path="/" key={"Home"} element={<GridMovie refetch={refetch} isSearchBarIsVisible setSearchText={setSearchText} movies={movies} isLoading={isLoading} page={page} setPage={setPage}/>}/>
-        <Route path="/top_rated" key={"Top_Rated"}  element={<GridMovie refetch={refetch} setSearchText={setSearchText} movies={movies} isLoading={isLoading} page={page} setPage={setPage} />}/>
-        <Route path="/upcoming" key={"Upcoming"} element={<GridMovie refetch={refetch} setSearchText={setSearchText} movies={movies} isLoading={isLoading} page={page} setPage={setPage} />}/>
-        <Route path="/similar/:id" key={`movie-similar${imdbID}`} element={<GridMovie refetch={refetch} setSearchText={setSearchText} movies={similarMovie} isLoading={onLoad} page={page} setPage={setPage} />} /> 
+        <Route path="/" key={"Home"} element={<GridMovie setters={setters} movies={movies} isLoading={isLoading} page={page} isSearchBarIsVisible/>}/>
+        <Route path="/top_rated" key={"Top_Rated"}  element={<GridMovie setters={setters} movies={movies} isLoading={isLoading} page={page} />}/>
+        <Route path="/upcoming" key={"Upcoming"} element={<GridMovie setters={setters} movies={movies} isLoading={isLoading} page={page}  />}/>
+        <Route path="/similar/:id" key={`movie-similar${imdbID}`} element={<GridMovie setters={setters} movies={similarMovie} isLoading={onLoad} page={page}  />} /> 
         <Route path="/movie/:imdbID" key={`movie-detail${imdbID}`} element={<TheMovie />} />
+        <Route path="/actor/:imdbID" key={`actor-detail${imdbID}`} element={<Actor setters={setters} page={page} />} />
       </Routes>
     </div>
   )
